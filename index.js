@@ -2,18 +2,28 @@ const rules = require("@gorules/zen-engine");
 const fs = require("fs/promises");
 const testCases = require("./test-cases.json");
 
-(async () => {
+const express = require("express");
+const app = express();
+const port = 3000;
+
+app.get("/", (_req, res) => {
+  res.json({ status: "OK" });
+});
+
+app.get("/fraud-profiles/:id", async (req, res) => {
   // Example filesystem content, it is up to you how you obtain content
   const content = await fs.readFile("./fraud-rules.json");
   const engine = new rules.ZenEngine();
 
   const decision = engine.createDecision(content);
 
-  testCases.forEach(async (c) => {
-    const result = await decision.evaluate(c);
-    console.log({
-      ...result,
-      description: c.description,
-    });
-  });
-})();
+  const profile = testCases.find((p) => p.userId === req.params.id);
+  console.log(profile);
+
+  const evaluation = await decision.evaluate(profile);
+  res.json(evaluation.result);
+});
+
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
