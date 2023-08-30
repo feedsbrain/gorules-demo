@@ -1,0 +1,123 @@
+{
+  "contentType": "application/vnd.gorules.decision",
+  "nodes": [
+    {
+      "id": "e1b33ae1-8446-4cc2-bcec-c18b2ce5dab2",
+      "type": "inputNode",
+      "position": {
+        "x": -40,
+        "y": 130
+      },
+      "name": "Request"
+    },
+    {
+      "id": "8a95f34a-ae9f-43dc-950a-baf8e2ee434e",
+      "type": "functionNode",
+      "position": {
+        "x": 260,
+        "y": 80
+      },
+      "name": "Calculate Register",
+      "content": "/**\n* @param {import('gorules').Input} input\n* @param {{\n*  moment: import('dayjs')\n*  env: Record<string, any>\n* }} helpers\n*/\nconst handler = (input, { moment, env }) => {\n  let registeredTimeInHours = 0;\n  \n  if (input.registeredDate) {\n    try {\n      const startDate = moment(input.registeredDate);\n      const now = moment();\n      registeredTimeInHours = now.diff(startDate, 'hours');\n    } catch (e) {\n      console.log(e);\n    }\n  }\n\n  const response = {\n    ...input,\n    registeredTimeInHours\n  }\n  \n  return response;\n}"
+    },
+    {
+      "id": "e44c4fa1-5f55-4824-ac63-3c533cdd5fe5",
+      "type": "decisionTableNode",
+      "position": {
+        "x": 540,
+        "y": 150
+      },
+      "name": "Fraud Profiles",
+      "content": {
+        "hitPolicy": "first",
+        "inputs": [
+          {
+            "id": "ceesAWySyb",
+            "type": "expression",
+            "field": "fuelPurchase",
+            "name": "Fuel Purchase"
+          },
+          {
+            "id": "cb8VO5eFQy",
+            "type": "expression",
+            "field": "eKYC",
+            "name": "eKYC"
+          },
+          {
+            "id": "DOg6Pi1Vdr",
+            "type": "expression",
+            "field": "registeredTimeInHours",
+            "name": "Registered Time in Hours"
+          }
+        ],
+        "outputs": [
+          {
+            "field": "status",
+            "id": "w7RWpQj205",
+            "name": "Status",
+            "type": "expression"
+          }
+        ],
+        "rules": [
+          {
+            "_id": "zGNrjSpJGN",
+            "ceesAWySyb": "",
+            "cb8VO5eFQy": "",
+            "DOg6Pi1Vdr": "< 48",
+            "w7RWpQj205": "false"
+          },
+          {
+            "_id": "9ZWu18_yOZ",
+            "ceesAWySyb": ">= 1",
+            "cb8VO5eFQy": "",
+            "DOg6Pi1Vdr": "",
+            "w7RWpQj205": "true"
+          },
+          {
+            "_id": "I2jZum2TKm",
+            "ceesAWySyb": "",
+            "cb8VO5eFQy": "true",
+            "DOg6Pi1Vdr": "",
+            "w7RWpQj205": "true"
+          },
+          {
+            "_id": "lrxoU1bpqw",
+            "ceesAWySyb": "",
+            "cb8VO5eFQy": "",
+            "DOg6Pi1Vdr": "",
+            "w7RWpQj205": "false"
+          }
+        ]
+      }
+    },
+    {
+      "id": "562ae30c-c666-4ea5-b0f8-cf8b2fb109df",
+      "type": "outputNode",
+      "position": {
+        "x": 840,
+        "y": 140
+      },
+      "name": "Response"
+    }
+  ],
+  "edges": [
+    {
+      "id": "d82e028b-6313-4075-87f1-c3af8cad30bb",
+      "sourceId": "e44c4fa1-5f55-4824-ac63-3c533cdd5fe5",
+      "type": "edge",
+      "targetId": "562ae30c-c666-4ea5-b0f8-cf8b2fb109df"
+    },
+    {
+      "id": "0e8861d4-1c90-44bc-b1a6-b3b9572e2c58",
+      "sourceId": "e1b33ae1-8446-4cc2-bcec-c18b2ce5dab2",
+      "type": "edge",
+      "targetId": "8a95f34a-ae9f-43dc-950a-baf8e2ee434e"
+    },
+    {
+      "id": "443b4469-fc74-442b-9abf-580ffab99ea8",
+      "sourceId": "8a95f34a-ae9f-43dc-950a-baf8e2ee434e",
+      "type": "edge",
+      "targetId": "e44c4fa1-5f55-4824-ac63-3c533cdd5fe5"
+    }
+  ]
+}
