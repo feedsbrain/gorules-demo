@@ -1,5 +1,25 @@
 {
   "contentType": "application/vnd.gorules.decision",
+  "edges": [
+    {
+      "id": "d82e028b-6313-4075-87f1-c3af8cad30bb",
+      "sourceId": "e44c4fa1-5f55-4824-ac63-3c533cdd5fe5",
+      "type": "edge",
+      "targetId": "562ae30c-c666-4ea5-b0f8-cf8b2fb109df"
+    },
+    {
+      "id": "0e8861d4-1c90-44bc-b1a6-b3b9572e2c58",
+      "sourceId": "e1b33ae1-8446-4cc2-bcec-c18b2ce5dab2",
+      "type": "edge",
+      "targetId": "8a95f34a-ae9f-43dc-950a-baf8e2ee434e"
+    },
+    {
+      "id": "443b4469-fc74-442b-9abf-580ffab99ea8",
+      "sourceId": "8a95f34a-ae9f-43dc-950a-baf8e2ee434e",
+      "type": "edge",
+      "targetId": "e44c4fa1-5f55-4824-ac63-3c533cdd5fe5"
+    }
+  ],
   "nodes": [
     {
       "id": "e1b33ae1-8446-4cc2-bcec-c18b2ce5dab2",
@@ -27,7 +47,7 @@
         "x": 540,
         "y": 150
       },
-      "name": "Fraud Profiles",
+      "name": "3DS Rules",
       "content": {
         "hitPolicy": "first",
         "inputs": [
@@ -52,9 +72,9 @@
         ],
         "outputs": [
           {
-            "field": "status",
+            "field": "3ds",
             "id": "w7RWpQj205",
-            "name": "Status",
+            "name": "3DS",
             "type": "expression"
           }
         ],
@@ -64,28 +84,28 @@
             "ceesAWySyb": "",
             "cb8VO5eFQy": "",
             "DOg6Pi1Vdr": "< 48",
-            "w7RWpQj205": "false"
+            "w7RWpQj205": "true"
           },
           {
             "_id": "9ZWu18_yOZ",
             "ceesAWySyb": ">= 1",
             "cb8VO5eFQy": "",
             "DOg6Pi1Vdr": "",
-            "w7RWpQj205": "true"
+            "w7RWpQj205": "false"
           },
           {
             "_id": "I2jZum2TKm",
             "ceesAWySyb": "",
             "cb8VO5eFQy": "true",
             "DOg6Pi1Vdr": "",
-            "w7RWpQj205": "true"
+            "w7RWpQj205": "false"
           },
           {
             "_id": "lrxoU1bpqw",
             "ceesAWySyb": "",
             "cb8VO5eFQy": "",
             "DOg6Pi1Vdr": "",
-            "w7RWpQj205": "false"
+            "w7RWpQj205": "true"
           }
         ]
       }
@@ -98,26 +118,6 @@
         "y": 140
       },
       "name": "Response"
-    }
-  ],
-  "edges": [
-    {
-      "id": "d82e028b-6313-4075-87f1-c3af8cad30bb",
-      "sourceId": "e44c4fa1-5f55-4824-ac63-3c533cdd5fe5",
-      "type": "edge",
-      "targetId": "562ae30c-c666-4ea5-b0f8-cf8b2fb109df"
-    },
-    {
-      "id": "0e8861d4-1c90-44bc-b1a6-b3b9572e2c58",
-      "sourceId": "e1b33ae1-8446-4cc2-bcec-c18b2ce5dab2",
-      "type": "edge",
-      "targetId": "8a95f34a-ae9f-43dc-950a-baf8e2ee434e"
-    },
-    {
-      "id": "443b4469-fc74-442b-9abf-580ffab99ea8",
-      "sourceId": "8a95f34a-ae9f-43dc-950a-baf8e2ee434e",
-      "type": "edge",
-      "targetId": "e44c4fa1-5f55-4824-ac63-3c533cdd5fe5"
     }
   ]
 }

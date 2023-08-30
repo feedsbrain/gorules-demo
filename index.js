@@ -1,4 +1,4 @@
-const rules = require("@gorules/zen-engine");
+const gorules = require("@gorules/zen-engine");
 const fs = require("fs/promises");
 const testCases = require("./test-cases.json");
 
@@ -6,16 +6,29 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
-app.get("/", (_req, res) => {
-  res.json({ status: "OK" });
+app.get("/", async (_req, res) => {
+  const rules = await fs.readFile("./3DS.json");
+  const engine = new gorules.ZenEngine();
+
+  const decision = engine.createDecision(rules);
+
+  const results = await Promise.all(
+    testCases.map(async (tc) => {
+      return {
+        ...tc,
+        evaluation: await decision.evaluate(tc),
+      };
+    })
+  );
+
+  res.json({ status: "OK", ...results });
 });
 
 app.get("/fraud-profiles/:id", async (req, res) => {
-  // Example filesystem content, it is up to you how you obtain content
-  const content = await fs.readFile("./fraud-rules.json");
-  const engine = new rules.ZenEngine();
+  const rules = await fs.readFile("./3DS.json");
+  const engine = new gorules.ZenEngine();
 
-  const decision = engine.createDecision(content);
+  const decision = engine.createDecision(rules);
 
   const profile = testCases.find((p) => p.userId === req.params.id);
   console.log(profile);
